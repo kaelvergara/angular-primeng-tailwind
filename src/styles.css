@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+/* @root {
+  --color-main: #0872b9;
+  --color-secondary: #0872b9;
+
+  --p-button-secondary-background: #0872b9;
+} */
+ /* f1ac1d */
+
+
+
+/* .p-btn {
+  @apply inline-flex items-center justify-center gap-2
+         px-4 py-2 text-sm font-medium
+         rounded-lg transition
+         focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.p-btn-primary {
+  background-color: black;
+  color: black;
+} */
