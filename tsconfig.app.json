@@ -12,6 +12,6 @@
       "@features/*": ["src/app/features/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/app/features/signup/components/signup-form-component/components/password-status"],
+  "include": ["src/**/*.ts", "src/app/features/signup/components/signup-form/components/password-status"],
   "exclude": ["src/**/*.spec.ts"]
 }

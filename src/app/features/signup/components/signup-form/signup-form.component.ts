@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormErrorComponent } from '@shared/components/form-error/form-error-component';
-import { mobileNumberValidator } from '@shared/validators/mobile-number-validator';
-import { confirmPasswordValidator, passwordValidator } from '@shared/validators/password-validator';
+import { FormErrorComponent } from '@shared/components/form-error/form-error.component';
+import { mobileNumberValidator } from '@shared/validators/mobile-number.validator';
+import { confirmPasswordValidator, passwordValidator } from '@shared/validators/password.validator';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { StepperModule } from 'primeng/stepper';
-import { PasswordStatusComponent } from './components/password-status/password-status-component';
+import { PasswordStatusComponent } from './components/password-status/password-status.component';
 
 export enum SignupFormType {
   GUEST = 'GUEST',
@@ -18,17 +20,19 @@ export enum SignupFormType {
 @Component({
   selector: 'app-signup-form-component',
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
     StepperModule,
-    ReactiveFormsModule,
     FileUploadModule,
-    CommonModule,
+    ProgressSpinnerModule,
+    PasswordModule,
     FormErrorComponent,
     PasswordStatusComponent,
   ],
-  templateUrl: './signup-form-component.html',
-  styleUrl: './signup-form-component.css',
+  templateUrl: './signup-form.component.html',
+  styleUrl: './signup-form.component.css',
 })
 export class SignupFormComponent implements OnInit {
   @Output() hideDialog = new EventEmitter<void>();
@@ -37,6 +41,7 @@ export class SignupFormComponent implements OnInit {
   private activateCallback!: (stepIndex: number) => void;
   form: FormGroup;
   formIndex: number = 1;
+  isSubmitting = false;
 
   private _type!: SignupFormType;
   @Input()
@@ -44,16 +49,12 @@ export class SignupFormComponent implements OnInit {
     this._type = type;
     if (type === SignupFormType.PROPERTY_OWNER) {
       this.form.addControl('propertyName', this.fb.control('', { validators: [Validators.required] }));
-      this.form.addControl('area', this.fb.control('', { validators: [Validators.required] }));
-      this.form.addControl('street', this.fb.control('', { validators: [Validators.required] }));
       this.form.addControl('barangay', this.fb.control('', { validators: [Validators.required] }));
-      this.form.addControl('houseNo', this.fb.control('', { validators: [Validators.required] }));
+      this.form.addControl('completeAddress', this.fb.control('', { validators: [Validators.required] }));
     } else {
       this.form.removeControl('propertyName');
-      this.form.removeControl('area');
-      this.form.removeControl('street');
       this.form.removeControl('barangay');
-      this.form.removeControl('houseNo');
+      this.form.removeControl('completeAddress');
     }
   }
   get type(): SignupFormType {
@@ -108,11 +109,28 @@ export class SignupFormComponent implements OnInit {
     } else if (this.formIndex === 2 && this.isCreatePasswordStepValid()) {
       this.formIndex++;
       this.activateCallback(this.formIndex);
+
+      if (this.type === SignupFormType.GUEST) {
+        this.doSubmit();
+      }
+
+      // TODO delete mock
+      this.setStep3HardcodedValues();
     } else if (this.formIndex === 3 && this.type === SignupFormType.PROPERTY_OWNER) {
-      this.form.markAllAsTouched();
+      this.formIndex++;
+      this.activateCallback(this.formIndex);
+      this.doSubmit();
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  doSubmit() {
+    this.isSubmitting = true;
+  }
+
+  closeModal() {
+    this.hideDialog.emit();
   }
 
   goBack() {
@@ -147,16 +165,25 @@ export class SignupFormComponent implements OnInit {
       email: 'john.doe@example.com',
     });
 
-    
     this.form.markAsPristine();
     this.form.markAsUntouched();
   }
 
-  
   setStep2HardcodedValues() {
     this.form.patchValue({
       password: 'Password123!',
       confirmPassword: 'Password123!',
+    });
+
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+  }
+
+  setStep3HardcodedValues() {
+    this.form.patchValue({
+      propertyName: 'one',
+      barangay: 'two',
+      completeAddress: 'three',
     });
 
     this.form.markAsPristine();

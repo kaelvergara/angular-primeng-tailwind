@@ -2,13 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
-import { SignupFormComponent, SignupFormType } from './components/signup-form-component/signup-form-component';
+import { SignupFormComponent, SignupFormType } from './components/signup-form/signup-form.component';
 
 @Component({
   selector: 'app-signup-component',
   imports: [ButtonModule, DialogModule, SignupFormComponent, DividerModule],
-  templateUrl: './signup-component.html',
-  styleUrl: './signup-component.css',
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.css',
 })
 export class SignupComponent {
   @ViewChild(SignupFormComponent) signupForm!: SignupFormComponent;

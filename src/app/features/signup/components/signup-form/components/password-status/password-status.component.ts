@@ -5,8 +5,8 @@ import { AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-password-status-component',
   imports: [CommonModule],
-  templateUrl: './password-status-component.html',
-  styleUrl: './password-status-component.css',
+  templateUrl: './password-status.component.html',
+  styleUrl: './password-status.component.css',
 })
 export class PasswordStatusComponent implements OnInit {
   @Input() passwordControl!: AbstractControl | null;
