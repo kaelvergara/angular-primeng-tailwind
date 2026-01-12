@@ -1,0 +1,206 @@
+<div class="card">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <p-stepper [value]="formIndex" [linear]="true">
+      <p-step-item [value]="1">
+        <p-step>General Information</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <ng-container *ngIf="storeCallback(activateCallback)"></ng-container>
+            <div class="flex flex-col">
+              <div
+                class="border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-950 h-full w-full rounded border-2 border-dashed p-6"
+              >
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div class="order-1 flex flex-col">
+                    <label for="firstName" class="mb-2">First Name</label>
+                    <input pInputText id="firstName" class="w-full" formControlName="firstName" />
+                    <app-form-error [control]="form.get('firstName')" label="First Name"></app-form-error>
+                  </div>
+                  <div class="order-2 flex flex-col md:order-3">
+                    <label for="middleName" class="mb-2">Middle Name</label>
+                    <input pInputText id="middleName" class="w-full" formControlName="middleName" />
+                    <app-form-error [control]="form.get('middleName')" label="Middle Name"></app-form-error>
+                  </div>
+                  <div class="order-3 flex flex-col md:order-5">
+                    <label for="lastName" class="mb-2">Last Name</label>
+                    <input pInputText id="lastName" class="w-full" formControlName="lastName" />
+                    <app-form-error [control]="form.get('lastName')" label="Last Name"></app-form-error>
+                  </div>
+                  <div class="order-4 flex flex-col md:order-2">
+                    <label for="gender" class="mb-2">Gender</label>
+                    <input pInputText id="gender" class="w-full" formControlName="gender" />
+                    <app-form-error [control]="form.get('gender')" label="Gender"></app-form-error>
+                  </div>
+                  <div class="order-5 flex flex-col md:order-4">
+                    <label for="mobileNumber" class="mb-2">Mobile Number</label>
+                    <input pInputText id="mobileNumber" class="w-full" formControlName="mobileNumber" />
+                    <app-form-error [control]="form.get('mobileNumber')" label="Mobile Number"></app-form-error>
+                  </div>
+                  <div class="order-6 flex flex-col">
+                    <label for="email" class="mb-2">Email</label>
+                    <input pInputText id="email" class="w-full" formControlName="email" />
+                    <app-form-error [control]="form.get('email')" label="Email"></app-form-error>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="py-6">
+              <p-button type="submit" label="Next" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
+
+      <p-step-item [value]="2">
+        <p-step>Create a Strong Password</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex flex-col">
+              <div
+                class="border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-950 h-full w-full rounded border-2 border-dashed p-4"
+              >
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-[21px]">
+                  <div class="flex flex-col md:col-span-1">
+                    <label for="password" class="mb-2">Password</label>
+                    <input
+                      pInputText
+                      type="password"
+                      id="password"
+                      formControlName="password"
+                      class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                    />
+                    <app-form-error [control]="form.get('password')" label="Password"></app-form-error>
+                  </div>
+                  <div class="flex flex-col md:col-span-1">
+                    <label for="confirmPassword" class="mb-2">Confirm Password</label>
+                    <input
+                      pInputText
+                      type="password"
+                      id="confirmPassword"
+                      formControlName="confirmPassword"
+                      class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                    />
+                    <span class="text-sm text-red-500" *ngIf="form.get('confirmPassword')?.touched">
+                      <span *ngIf="form.errors?.['passwordMismatch']">Passwords do not match.</span>
+                    </span>
+                  </div>
+                  
+                </div>
+                <app-password-status-component
+                    [passwordControl]="form.get('password')"
+                  ></app-password-status-component>
+              </div>
+            </div>
+            <div class="flex gap-2 py-6">
+              <p-button label="Back" severity="secondary" (onClick)="goBack()" />
+              <p-button type="submit" label="Next" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
+      @if (type === SignupFormType.PROPERTY_OWNER) {
+        <p-step-item [value]="3">
+          <p-step>Property Registration</p-step>
+          <p-step-panel>
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <div
+                  class="border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-950 h-full w-full items-center justify-center rounded border-2 border-dashed p-4"
+                >
+                  <div class="w-[50%]">
+                    <label for="propertyName" class="mb-2">Property Name</label>
+                    <input
+                      pInputText
+                      id="propertyName"
+                      formControlName="propertyName"
+                      class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                    />
+                    <app-form-error [control]="form.get('propertyName')" label="Property Name"></app-form-error>
+                  </div>
+                  <div class="">
+                    <hr class="my-[21px] border-gray-300" />
+                  </div>
+                  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div class="flex flex-col">
+                      <label for="area" class="mb-2">Area</label>
+                      <input
+                        pInputText
+                        id="area"
+                        placeholder="Enter area"
+                        class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      />
+                    </div>
+                    <div class="flex flex-col">
+                      <label for="street" class="mb-2">Street</label>
+                      <input
+                        pInputText
+                        id="street"
+                        placeholder="Enter street"
+                        class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      />
+                    </div>
+                    <div class="flex flex-col">
+                      <label for="barangay" class="mb-2">Barangay</label>
+                      <input
+                        pInputText
+                        id="barangay"
+                        placeholder="Enter barangay"
+                        class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      />
+                    </div>
+                    <div class="flex flex-col">
+                      <label for="houseNumber" class="mb-2">House / Building No.</label>
+                      <input
+                        pInputText
+                        id="houseNumber"
+                        placeholder="Enter house/building number"
+                        class="w-full rounded-md border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div class="md:col-span-2">
+                    <hr class="my-2 border-gray-300" />
+                  </div>
+                  <div class="flex flex-col gap-2 md:col-span-2">
+                    <label class="text-sm font-medium">Add Documents</label>
+                    <p-fileUpload
+                      name="documents"
+                      customUpload="true"
+                      [auto]="true"
+                      chooseLabel="Choose Files"
+                      uploadLabel="Upload"
+                      cancelLabel="Cancel"
+                      class="w-full"
+                    >
+                    </p-fileUpload>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-2 py-6">
+                <p-button label="Back" severity="secondary" (onClick)="activateCallback(2)" />
+                <p-button label="Next" (onClick)="activateCallback(4)" />
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-item>
+      }
+      <p-step-item [value]="type === SignupFormType.PROPERTY_OWNER ? 4 : 3">
+        <p-step>Completing Signup</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex h-48 flex-col">
+              <div
+                class="border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-950 flex flex-auto items-center justify-center rounded border-2 border-dashed"
+              >
+                Registration Successful
+              </div>
+            </div>
+            <div class="flex justify-end py-6">
+              <p-button label="Back" severity="secondary" (onClick)="activateCallback(3)" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
+    </p-stepper>
+  </form>
+</div>

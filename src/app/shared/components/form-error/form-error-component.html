@@ -1,0 +1,12 @@
+<span class="text-sm text-red-500" *ngIf="control?.touched && control?.invalid">
+  <span *ngIf="control?.errors?.['required']"> {{ label }} is required </span>
+  <span *ngIf="control?.errors?.['minlength']">
+    {{ label }} must be at least {{ control?.errors?.['minlength'].requiredLength }} characters
+  </span>
+  <span *ngIf="control?.errors?.['email']"> Please enter a valid email address </span>
+  <span *ngIf="control?.errors?.['mbHasStrings']"> Please enter numbers only</span>
+  <span *ngIf="control?.errors?.['mbInvalidFormat']">
+    Mobile number must be 11 digits starting with 09 or 12 digits starting with 639
+  </span>
+  <span *ngIf="control?.errors?.['password']"> Please enter valid password format. </span>
+</span>
