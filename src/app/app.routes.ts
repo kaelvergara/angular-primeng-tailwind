@@ -22,9 +22,11 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'property-owner',
+        path: 'property-directory/:id',
         loadComponent: () =>
-          import('./features/property-owner/property-owner-component').then((mod) => mod.PropertyOwnerComponent),
+          import('./features/property-directory/components/view-property-directory/view-property-directory.component').then(
+            (mod) => mod.ViewPropertyDirectoryComponent,
+          ),
       },
     ],
   },

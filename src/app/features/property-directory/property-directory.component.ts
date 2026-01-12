@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,17 +14,35 @@ import { PropertyDirectoryService } from './services/property-directory.service'
 
 @Component({
   selector: 'app-property-directory',
-  imports: [CommonModule, DrawerModule, ButtonModule, InputTextModule, TableModule, PaginatorModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    DrawerModule,
+    ButtonModule,
+    InputTextModule,
+    TableModule,
+    PaginatorModule,
+  ],
   templateUrl: './property-directory.component.html',
   styleUrl: './property-directory.component.css',
 })
 export class PropertyDirectoryComponent {
+  searchForm: FormGroup;
   propertyDirectories: PropertyDirectory[] = [];
   pageIndex: number = 0;
   itemsPerPage: number = 10;
   totalItems: number = 200;
 
-  constructor(private propertyDirectoryService: PropertyDirectoryService) {}
+  constructor(
+    private propertyDirectoryService: PropertyDirectoryService,
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      propertyName: [''],
+      status: [''],
+    });
+  }
 
   ngOnInit() {
     this.getPropertyDirectories(0, 10);
@@ -35,6 +56,10 @@ export class PropertyDirectoryComponent {
       },
       error: () => {},
     });
+  }
+
+  search() {
+    console.log('search');
   }
 
   onPageChange(event: PaginatorState) {

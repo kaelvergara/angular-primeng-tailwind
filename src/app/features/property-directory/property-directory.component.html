@@ -1,11 +1,17 @@
 <h1 class="mb-8 text-2xl">Property Directory</h1>
 <div class="flex flex-row">
-  <div class="flex gap-2">
-    <input pInputText id="propertyName" class="w-[240px]" placeholder="Search by Property Name" />
-    <input pInputText id="status" class="" placeholder="Search by Status" />
-    <p-button label="Search" severity="primary" />
+  <form [formGroup]="searchForm" (ngSubmit)="search()" class="flex gap-4">
+    <input
+      pInputText
+      id="propertyName"
+      class="w-[240px]"
+      placeholder="Search by Property Name"
+      formControlName="propertyName"
+    />
+    <input pInputText id="status" class="" placeholder="Search by Status" formControlName="status" />
+    <p-button type="submit" label="Search" severity="primary" />
     <p-button label="Reset" severity="primary" variant="outlined" />
-  </div>
+  </form>
 </div>
 <div class="mt-6">
   <p-table
@@ -36,7 +42,13 @@
         <td>{{ row.status }}</td>
         <td>
           <p-button *ngIf="row.status === 'APPROVED'" icon="pi pi-check" [rounded]="true" [text]="true" />
-          <p-button *ngIf="row.status === 'NEW'" icon="pi pi-eye" [rounded]="true" [text]="true" />
+          <p-button
+            *ngIf="row.status === 'NEW'"
+            icon="pi pi-eye"
+            [rounded]="true"
+            [text]="true"
+            [routerLink]="'/property-directory/1'"
+          />
           <p-button *ngIf="row.status === 'NEW'" icon="pi pi-pencil" [rounded]="true" [text]="true" />
         </td>
       </tr>

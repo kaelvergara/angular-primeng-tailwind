@@ -1,0 +1,66 @@
+<h1 class="mb-8 text-2xl">Review Property Directory</h1>
+<form [formGroup]="form" (ngSubmit)="openReviewModal()" class="flex flex-col gap-6">
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div class="order-1 flex flex-col">
+      <label for="firstName" class="mb-2">First Name</label>
+      <input pInputText id="firstName" class="w-full" formControlName="firstName" />
+      <app-form-error [control]="form.get('firstName')" label="First Name"></app-form-error>
+    </div>
+    <div class="order-2 flex flex-col md:order-3">
+      <label for="middleName" class="mb-2">Middle Name</label>
+      <input pInputText id="middleName" class="w-full" formControlName="middleName" />
+      <app-form-error [control]="form.get('middleName')" label="Middle Name"></app-form-error>
+    </div>
+    <div class="order-3 flex flex-col md:order-5">
+      <label for="lastName" class="mb-2">Last Name</label>
+      <input pInputText id="lastName" class="w-full" formControlName="lastName" />
+      <app-form-error [control]="form.get('lastName')" label="Last Name"></app-form-error>
+    </div>
+    <div class="order-4 flex flex-col md:order-2">
+      <label for="gender" class="mb-2">Gender</label>
+      <input pInputText id="gender" class="w-full" formControlName="gender" />
+      <app-form-error [control]="form.get('gender')" label="Gender"></app-form-error>
+    </div>
+    <div class="order-5 flex flex-col md:order-4">
+      <label for="mobileNumber" class="mb-2">Mobile Number</label>
+      <input pInputText id="mobileNumber" class="w-full" formControlName="mobileNumber" />
+      <app-form-error [control]="form.get('mobileNumber')" label="Mobile Number"></app-form-error>
+    </div>
+    <div class="order-6 flex flex-col">
+      <label for="email" class="mb-2">Email</label>
+      <input pInputText id="email" class="w-full" formControlName="email" />
+      <app-form-error [control]="form.get('email')" label="Email"></app-form-error>
+    </div>
+  </div>
+  <p-divider />
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div class="order-1 flex flex-col">
+      <label for="propertyName" class="mb-2">Property Name</label>
+      <input pInputText id="propertyName" class="w-full" formControlName="propertyName" />
+      <app-form-error [control]="form.get('propertyName')" label="Property Name"></app-form-error>
+    </div>
+    <div class="order-2 flex flex-col md:order-3">
+      <label for="barangay" class="mb-2">Barangay</label>
+      <input pInputText id="barangay" class="w-full" formControlName="barangay" />
+      <app-form-error [control]="form.get('barangay')" label="Barangay"></app-form-error>
+    </div>
+    <div class="order-3 flex flex-col md:order-5">
+      <label for="completeAddress" class="mb-2">Complete Address</label>
+      <input pInputText id="completeAddress" class="w-full" formControlName="completeAddress" />
+      <app-form-error [control]="form.get('completeAddress')" label="Complete Address"></app-form-error>
+    </div>
+  </div>
+  <p-divider />
+  <div>
+    <div class="mb-3">Documents:</div>
+    <div class="flex flex-col gap-1">
+      <a href="/" class="text-blue-500">birth certificate.pdf</a>
+      <a href="/" class="text-blue-500">cenomar.pdf</a>
+      <a href="/" class="text-blue-500">drivers license.pdf</a>
+    </div>
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Approve" severity="primary" (click)="openReviewModal()" />
+    <p-button label="Deny" severity="danger" />
+  </div>
+</form>
