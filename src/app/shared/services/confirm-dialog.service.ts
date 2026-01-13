@@ -1,50 +1,81 @@
-// confirm-dialog.service.ts
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
-export interface ConfirmDialogOptions {
+export enum ConfirmDialogType {
+  CONFIRM = 'CONFIRM',
+  REJECT = 'REJECT',
+}
+export interface ConfirmDialogDisplayOptions {
   header?: string;
-  message: string;
+  message?: string;
   acceptLabel?: string;
   rejectLabel?: string;
+}
+export interface ConfirmDialogOptions extends ConfirmDialogDisplayOptions {
+  type: ConfirmDialogType;
+}
+export type ConfirmResult = boolean;
+export interface RejectResult {
+  proceed: boolean;
+  remarks?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfirmDialogService {
-  private confirmSubject = new Subject<boolean>();
-  private optionsSubject = new Subject<ConfirmDialogOptions>();
+  options?: ConfirmDialogOptions;
+  defaultConfirmOptions: ConfirmDialogOptions = {
+    type: ConfirmDialogType.CONFIRM,
+    header: 'Confirmation',
+    message: 'Are you sure you want to approve the application?',
+    acceptLabel: 'Yes',
+    rejectLabel: 'No',
+  };
+  defaultRejectOptions: ConfirmDialogOptions = {
+    type: ConfirmDialogType.REJECT,
+    header: 'Reject Application',
+    message: '',
+    acceptLabel: 'Reject',
+    rejectLabel: 'Cancel',
+  };
+  visible = false;
 
-  get options$(): Observable<ConfirmDialogOptions> {
-    return this.optionsSubject.asObservable();
-  }
+  confirm(options?: ConfirmDialogDisplayOptions): Promise<boolean> {
+    this.options = { ...this.defaultConfirmOptions, ...options };
+    this.visible = true;
 
-  get confirm$(): Observable<boolean> {
-    return this.confirmSubject.asObservable();
-  }
+    return new Promise<boolean>((resolve) => {
+      const resolveFn = resolve;
 
-  confirm(options: ConfirmDialogOptions): Promise<boolean> {
-    this.optionsSubject.next({
-      header: options.header || 'Confirm',
-      acceptLabel: options.acceptLabel || 'Yes',
-      rejectLabel: options.rejectLabel || 'No',
-      message: options.message,
+      this.doAccept = () => {
+        this.visible = false;
+        resolveFn(true);
+      };
+      this.doReject = () => {
+        this.visible = false;
+        resolveFn(false);
+      };
     });
+  }
 
-    return new Promise((resolve) => {
-      const subscription = this.confirm$.subscribe((result) => {
-        resolve(result);
-        subscription.unsubscribe();
-      });
+  reject(options?: ConfirmDialogDisplayOptions): Promise<RejectResult> {
+    this.options = { ...this.defaultRejectOptions, ...options };
+    this.visible = true;
+
+    return new Promise<RejectResult>((resolve) => {
+      const resolveFn = resolve;
+
+      this.doAccept = (remarks?: string) => {
+        this.visible = false;
+        resolveFn({ proceed: true, remarks });
+      };
+      this.doReject = () => {
+        this.visible = false;
+        resolveFn({ proceed: false });
+      };
     });
   }
 
-  accept() {
-    this.confirmSubject.next(true);
-  }
-
-  reject() {
-    this.confirmSubject.next(false);
-  }
+  doAccept(remarks?: string) {}
+  doReject() {}
 }

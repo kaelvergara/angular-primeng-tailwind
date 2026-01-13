@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormErrorComponent } from '@shared/components/form-error/form-error.component';
 import { ConfirmDialogService } from '@shared/services/confirm-dialog.service';
 import { mobileNumberValidator } from '@shared/validators/mobile-number.validator';
@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-view-property-directory.component',
-  imports: [ReactiveFormsModule, FormErrorComponent, InputTextModule, DividerModule, ButtonModule],
+  imports: [ReactiveFormsModule, RouterLink, FormErrorComponent, InputTextModule, DividerModule, ButtonModule],
   templateUrl: './view-property-directory.component.html',
   styleUrl: './view-property-directory.component.css',
 })
@@ -42,33 +42,25 @@ export class ViewPropertyDirectoryComponent {
     this.propertyId = this.route.snapshot.paramMap.get('id')!;
   }
 
-  async deleteItem() {
-    const confirmed = await this.confirmService.confirm({
-      message: 'Are you sure you want to delete this item?',
-      header: 'Delete Confirmation',
-      acceptLabel: 'Yes, delete',
-      rejectLabel: 'Cancel',
-    });
+  // async deleteItem() {
+  //   const confirmed = await this.confirmService.confirm();
 
-    if (confirmed) {
-      console.log('Item deleted!');
-    } else {
-      console.log('Deletion cancelled');
-    }
+  //   if (confirmed) {
+  //     console.log('Item deleted!');
+  //   } else {
+  //     console.log('Deletion cancelled');
+  //   }
+  // }
+
+  openConfirmModal() {
+    this.confirmService.confirm().then((confirmed) => {
+      console.log(confirmed);
+    });
   }
 
-  async openReviewModal() {
-    const confirmed = await this.confirmService.confirm({
-      message: 'Are you sure you want to delete this item?',
-      header: 'Delete Confirmation',
-      acceptLabel: 'Yes, delete',
-      rejectLabel: 'Cancel',
+  openRejectModal() {
+    this.confirmService.reject().then((proceed) => {
+      console.log(proceed);
     });
-
-    if (confirmed) {
-      console.log('Item deleted!');
-    } else {
-      console.log('Deletion cancelled');
-    }
   }
 }

@@ -1,35 +1,55 @@
-<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" class="w-full" showHeader="false">
-  <div class="w-[500px] pt-5">
-    <div class="flex flex-col items-center justify-center p-10">
-      <h3 class="mb-2 text-2xl font-bold">Confirmation</h3>
-      <div class="mb-14 text-lg text-gray-500">Are you sure you want to approve the application?</div>
+<p-dialog [(visible)]="confirmService.visible" [modal]="true" [closable]="false" class="w-full" showHeader="false">
+  @if (confirmService.options?.type === ConfirmDialogType.CONFIRM) {
+    <div class="w-[500px] pt-5">
+      <div class="flex flex-col items-center justify-center p-10">
+        <h3 class="mb-2 text-2xl font-bold">{{ confirmService.options?.header }}</h3>
+        <div class="mb-10 text-lg text-gray-500">{{ confirmService.options?.message }}</div>
 
-      <div class="flex w-[200px] flex-col gap-4">
-        <button
-          type="button"
-          class="text-primary bg-primary hover:bg-primary-600 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 text-white transition"
-          (click)="accept()"
-        >
-          Yes
-        </button>
-        <button
-          type="button"
-          class="text-primary hover:bg-primary-50 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 transition"
-          (click)="reject()"
-        >
-          No
-        </button>
+        <div class="flex w-[200px] flex-col gap-4">
+          <button
+            type="button"
+            class="text-primary bg-primary hover:bg-primary-600 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 text-white transition"
+            (click)="confirmService.doAccept()"
+          >
+            {{ confirmService.options?.acceptLabel }}
+          </button>
+          <button
+            type="button"
+            class="text-primary hover:bg-primary-50 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 transition"
+            (click)="confirmService.doReject()"
+          >
+            {{ confirmService.options?.rejectLabel }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- <p class="mb-4">{{ options?.message }}</p>
-  <div class="flex justify-end gap-2">
-    <button pButton type="button" class="bg-gray-300 text-black hover:bg-gray-400" (click)="reject()">
-      {{ options?.rejectLabel }}
-    </button>
-    <button pButton type="button" class="bg-red-500 text-white hover:bg-red-600" (click)="accept()">
-      {{ options?.acceptLabel }}
-    </button>
-  </div> -->
+  } @else {
+    @if (confirmService.options?.type === ConfirmDialogType.REJECT) {
+      <form [formGroup]="form" (ngSubmit)="rejectWithRemarks()" class="w-[500px] pt-5">
+        <div class="flex flex-col items-center justify-center p-10">
+          <h3 class="mb-2 text-2xl font-bold">{{ confirmService.options?.header }}</h3>
+          <div class="mb-10 flex flex-col">
+            <label for="remarks" class="mb-2">Please provide a reason for rejecting the application.</label>
+            <textarea id="remarks" rows="5" pTextarea formControlName="remarks"></textarea>
+            <app-form-error [control]="form.get('remarks')" label="Remarks"></app-form-error>
+          </div>
+          <div class="flex w-[200px] flex-col gap-4">
+            <button
+              type="submit"
+              class="text-primary bg-primary hover:bg-primary-600 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 text-white transition"
+            >
+              {{ confirmService.options?.acceptLabel }}
+            </button>
+            <button
+              type="button"
+              class="text-primary hover:bg-primary-50 active:bg-primary-800 w-full cursor-pointer rounded-[10px] border px-4 py-2 transition"
+              (click)="confirmService.doReject()"
+            >
+              {{ confirmService.options?.rejectLabel }}
+            </button>
+          </div>
+        </div>
+      </form>
+    }
+  }
 </p-dialog>

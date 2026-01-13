@@ -1,44 +1,37 @@
-<p-menubar class="shadow-xl md:px-12 md:py-[10px]">
-  <ng-template #start>
-    <p-button icon="pi pi-bars" class="ml-2 md:hidden" (click)="visible = true"></p-button>
+<nav class="flex justify-center py-3 shadow-xl">
+  <div class="flex w-full max-w-screen-2xl items-center justify-between">
     <div class="flex items-center gap-5">
-      <img src="/images/macea-logo.png" class="h-[60px]" />
-      <h1 class="text-primary text-[18px] font-bold">Makati Central Estate Association Inc</h1>
+      <img src="/images/macea-logo.png" class="h-[40px]" />
+      <h1 class="text-primary text-lg font-bold">Permits Processing System</h1>
     </div>
-  </ng-template>
-  <ng-template #end>
+
     <div class="flex items-center gap-2">
       <span>John Doe</span>
       <i class="pi pi-sign-out"></i>
     </div>
-  </ng-template>
-</p-menubar>
-<div class="relative z-2 flex gap-5 px-12 py-10">
-  <aside class="hidden h-fit rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-lg md:block">
-    <div class="mb-3 text-lg font-bold">Menu</div>
-    <div class="flex flex-col gap-2">
-      <a routerLink="/property-directory" routerLinkActive="font-bold text-primary">Property Directory</a>
-      <a href="/">Link 1</a>
-      <a href="/">Link 2</a>
-    </div>
-  </aside>
-  <main class="flex-1 rounded-lg border border-gray-200 bg-white p-6 shadow-lg">
-    <router-outlet></router-outlet>
-  </main>
+  </div>
+</nav>
+
+<div class="relative z-2 flex justify-center">
+  <div class="flex w-full max-w-screen-2xl gap-5 py-10">
+    <aside class="sticky top-0.5 hidden h-fit rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-lg md:block">
+      <div class="mb-3 text-lg font-bold">Menu</div>
+      <div class="flex flex-col gap-2">
+        <a routerLink="/property-directory" routerLinkActive="font-bold text-primary">Property Directory</a>
+        <a href="/">Link 1</a>
+        <a href="/">Link 2</a>
+      </div>
+    </aside>
+    <main class="flex-1 rounded-lg border border-gray-200 bg-white p-6 shadow-lg">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- <div
+      class="absolute top- bottom-0 left-0 z-1 w-[171px] bg-[url('/images/side-highlight.png')] bg-auto bg-left bg-repeat-y opacity-15"
+    ></div> -->
+  </div>
 </div>
 
-<p-drawer [(visible)]="visible" [modal]="true" class="md:hidden" [style]="{ width: '250px' }">
-  <ng-template #headless>
-    <div class="flex h-full flex-col bg-gray-50 p-4">
-      <ul>
-        <li>Property Directory</li>
-        <li>Link 2</li>
-        <li>Link 3</li>
-      </ul>
-    </div>
-  </ng-template>
-</p-drawer>
-
 <div
-  class="fixed top-[82px] bottom-0 left-0 z-1 w-[171px] bg-[url('/images/side-highlight.png')] bg-auto bg-left bg-repeat-y opacity-15"
+  class="fixed bottom-0 left-0 z-1 h-[150px] w-full bg-[url('/images/skylines.jpg')] bg-contain bg-bottom bg-repeat-x"
 ></div>

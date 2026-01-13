@@ -4,11 +4,11 @@ import { RouterOutlet } from '@angular/router';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
-import { MenubarModule } from 'primeng/menubar';
+// import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   selector: 'app-navigation-component',
-  imports: [RouterOutlet, DrawerModule, ButtonModule, MenubarModule, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, DrawerModule, ButtonModule, RouterLink, RouterLinkActive],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })
